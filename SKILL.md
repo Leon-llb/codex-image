@@ -1,10 +1,10 @@
 ---
-name: gpt-image
+name: codex-image
 description: "通过 Codex CLI (ChatGPT Plus) 免费生图，不消耗 API 余额。需要安装 Codex.app 并登录 ChatGPT 账号。特点：文字渲染精准、照片级真实度。"
 allowed-tools: Bash(python3 *)
 ---
 
-# GPT Image（Codex 通道）
+# Codex Image（Codex 通道）
 
 通过 Codex CLI + ChatGPT Plus 订阅免费生图，**不走 API 计费**。
 
@@ -13,7 +13,7 @@ allowed-tools: Bash(python3 *)
 ## 使用方式
 
 ```bash
-python3 ~/.claude/skills/gpt-image/generate.py "<prompt>" [size] [output_dir]
+python3 ~/.claude/skills/codex-image/generate.py "<prompt>" [size] [output_dir]
 ```
 
 | 参数 | 说明 | 默认值 |
@@ -26,13 +26,13 @@ python3 ~/.claude/skills/gpt-image/generate.py "<prompt>" [size] [output_dir]
 
 ```bash
 # 方形
-python3 ~/.claude/skills/gpt-image/generate.py "一只橘猫睡在沙发上，阳光洒落"
+python3 ~/.claude/skills/codex-image/generate.py "一只橘猫睡在沙发上，阳光洒落"
 
 # 横版
-python3 ~/.claude/skills/gpt-image/generate.py "a futuristic city skyline" 1536x1024
+python3 ~/.claude/skills/codex-image/generate.py "a futuristic city skyline" 1536x1024
 
 # 指定目录
-python3 ~/.claude/skills/gpt-image/generate.py "日式庭院" 1024x1536 /Users/leon/Desktop
+python3 ~/.claude/skills/codex-image/generate.py "日式庭院" 1024x1536 /Users/leon/Desktop
 ```
 
 ## 原理

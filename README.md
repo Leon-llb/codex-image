@@ -1,6 +1,6 @@
 # GPT Image —— 通过 Codex CLI 免费生图
 
-[![Version](https://img.shields.io/badge/version-1.0.0-blue)](https://github.com/Leon-llb/gpt-image/releases)
+[![Version](https://img.shields.io/badge/version-1.0.0-blue)](https://github.com/Leon-llb/codex-image/releases)
 [![Platform](https://img.shields.io/badge/platform-macOS-lightgrey)]()
 [![License](https://img.shields.io/badge/license-MIT-green)](LICENSE)
 [![Requires](https://img.shields.io/badge/requires-ChatGPT%20Plus%20%7C%20Codex.app-orange)](https://codex.chat)
@@ -20,13 +20,13 @@
 ## 安装
 
 ```bash
-git clone https://github.com/Leon-llb/gpt-image.git ~/.claude/skills/gpt-image
+git clone https://github.com/Leon-llb/codex-image.git ~/.claude/skills/codex-image
 ```
 
 ## 命令行使用
 
 ```bash
-python3 ~/.claude/skills/gpt-image/generate.py "<prompt>" [size] [output_dir]
+python3 ~/.claude/skills/codex-image/generate.py "<prompt>" [size] [output_dir]
 ```
 
 | 参数 | 说明 | 默认值 |
@@ -52,7 +52,7 @@ Claude Code 自动发现 `SKILL.md`，对话中说"生成一张 xxx 的图"即�
 
 确保 skill 在 Claude Code 的 skills 目录：
 ```bash
-ln -sf ~/.claude/skills/gpt-image ~/.claude/skills/gpt-image
+ln -sf ~/.claude/skills/codex-image ~/.claude/skills/codex-image
 ```
 
 ## 集成到 Hermes / OpenClaw Agent
@@ -62,9 +62,9 @@ ln -sf ~/.claude/skills/gpt-image ~/.claude/skills/gpt-image
 ### 1. 安装插件
 
 ```bash
-mkdir -p ~/.hermes/hermes-agent/plugins/image_gen/gpt-image
-cp hermes-plugin/plugin.yaml ~/.hermes/hermes-agent/plugins/image_gen/gpt-image/
-cp hermes-plugin/__init__.py ~/.hermes/hermes-agent/plugins/image_gen/gpt-image/
+mkdir -p ~/.hermes/hermes-agent/plugins/image_gen/codex-image
+cp hermes-plugin/plugin.yaml ~/.hermes/hermes-agent/plugins/image_gen/codex-image/
+cp hermes-plugin/__init__.py ~/.hermes/hermes-agent/plugins/image_gen/codex-image/
 ```
 
 ### 2. 配置 config.yaml
@@ -72,11 +72,11 @@ cp hermes-plugin/__init__.py ~/.hermes/hermes-agent/plugins/image_gen/gpt-image/
 ```yaml
 plugins:
   enabled:
-  - image_gen/gpt-image
+  - image_gen/codex-image
   disabled: []
 
 image_gen:
-  provider: gpt-image
+  provider: codex-image
 ```
 
 ### 3. 重启 Gateway
@@ -85,14 +85,14 @@ image_gen:
 hermes gateway restart
 ```
 
-之后在 Telegram/微信跟 Hermes 说"帮我生成一张 xxx 的图"，Agent 会调用 `image_generate` 工具 → 路由到 `gpt-image` provider → 执行 `generate.py` → 图片保存到 `~/Downloads`。
+之后在 Telegram/微信跟 Hermes 说"帮我生成一张 xxx 的图"，Agent 会调用 `image_generate` 工具 → 路由到 `codex-image` provider → 执行 `generate.py` → 图片保存到 `~/Downloads`。
 
 ## 原理
 
 ```
 用户消息 → Hermes Agent → image_generate 工具
                               ↓
-                     gpt-image provider
+                     codex-image provider
                               ↓
                    generate.py 脚本
                               ↓

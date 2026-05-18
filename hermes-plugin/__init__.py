@@ -1,6 +1,6 @@
-"""Leon's custom GPT Image provider — wraps Codex CLI generate.py.
+"""Leon's custom Codex Image provider — wraps Codex CLI generate.py.
 
-Runs ``python3 ~/.claude/skills/gpt-image/generate.py`` which uses
+Runs ``python3 ~/.claude/skills/codex-image/generate.py`` which uses
 ``codex exec`` (ChatGPT Plus subscription, no API billing).
 """
 
@@ -21,7 +21,7 @@ from agent.image_gen_provider import (
 
 logger = logging.getLogger(__name__)
 
-GENERATE_SCRIPT = os.path.expanduser("~/.claude/skills/gpt-image/generate.py")
+GENERATE_SCRIPT = os.path.expanduser("~/.claude/skills/codex-image/generate.py")
 CODEX_BIN = "/Applications/Codex.app/Contents/Resources/codex"
 
 _SIZES = {
@@ -32,16 +32,16 @@ _SIZES = {
 _OUTPUT_DIR = os.path.expanduser("~/Downloads")
 
 
-class GptImageProvider(ImageGenProvider):
-    """Leon's custom GPT-Image provider via Codex CLI."""
+class CodexImageProvider(ImageGenProvider):
+    """Leon's custom Codex Image provider via Codex CLI."""
 
     @property
     def name(self) -> str:
-        return "gpt-image"
+        return "codex-image"
 
     @property
     def display_name(self) -> str:
-        return "GPT Image (Codex CLI)"
+        return "Codex Image (Codex CLI)"
 
     def is_available(self) -> bool:
         return os.path.isfile(GENERATE_SCRIPT) and (
@@ -50,21 +50,21 @@ class GptImageProvider(ImageGenProvider):
 
     def list_models(self) -> List[Dict[str, Any]]:
         return [{
-            "id": "gpt-image-2",
-            "display": "GPT Image 2 (Codex CLI)",
+            "id": "codex-image-2",
+            "display": "Codex Image 2 (Codex CLI)",
             "speed": "~40s",
             "strengths": "ChatGPT Plus, no API cost",
             "price": "free (Plus sub)",
         }]
 
     def default_model(self) -> Optional[str]:
-        return "gpt-image-2"
+        return "codex-image-2"
 
     def get_setup_schema(self) -> Dict[str, Any]:
         return {
-            "name": "GPT Image (Codex CLI)",
+            "name": "Codex Image (Codex CLI)",
             "badge": "free",
-            "tag": "Leon's gpt-image via Codex CLI — ChatGPT Plus, no API key",
+            "tag": "Leon's codex-image via Codex CLI — ChatGPT Plus, no API key",
             "env_vars": [],
             "post_setup_hint": "Uses Codex.app + ChatGPT Plus. No extra setup needed.",
         }
@@ -80,7 +80,7 @@ class GptImageProvider(ImageGenProvider):
             return error_response(
                 error="Prompt is required",
                 error_type="invalid_argument",
-                provider="gpt-image",
+                provider="codex-image",
                 aspect_ratio=aspect_ratio,
             )
 
@@ -99,7 +99,7 @@ class GptImageProvider(ImageGenProvider):
             return error_response(
                 error="Image generation timed out (15 min)",
                 error_type="timeout",
-                provider="gpt-image",
+                provider="codex-image",
                 prompt=prompt,
                 aspect_ratio=aspect_ratio,
             )
@@ -107,7 +107,7 @@ class GptImageProvider(ImageGenProvider):
             return error_response(
                 error=f"Failed to run generate.py: {exc}",
                 error_type="internal_error",
-                provider="gpt-image",
+                provider="codex-image",
                 prompt=prompt,
                 aspect_ratio=aspect_ratio,
             )
@@ -116,13 +116,13 @@ class GptImageProvider(ImageGenProvider):
         stderr = result.stderr.strip()
 
         if stderr:
-            logger.debug("gpt-image stderr: %s", stderr)
+            logger.debug("codex-image stderr: %s", stderr)
 
         if result.returncode != 0:
             return error_response(
                 error=f"generate.py exited {result.returncode}: {stderr or stdout}",
                 error_type="api_error",
-                provider="gpt-image",
+                provider="codex-image",
                 prompt=prompt,
                 aspect_ratio=aspect_ratio,
             )
@@ -134,16 +134,16 @@ class GptImageProvider(ImageGenProvider):
                 if os.path.isfile(image_path):
                     return success_response(
                         image=image_path,
-                        model="gpt-image-2",
+                        model="codex-image-2",
                         prompt=prompt,
                         aspect_ratio=aspect_ratio,
-                        provider="gpt-image",
+                        provider="codex-image",
                         extra={"size": size, "output_dir": _OUTPUT_DIR},
                     )
                 return error_response(
                     error=f"generate.py reported success but file not found: {image_path}",
                     error_type="io_error",
-                    provider="gpt-image",
+                    provider="codex-image",
                     prompt=prompt,
                     aspect_ratio=aspect_ratio,
                 )
@@ -152,7 +152,7 @@ class GptImageProvider(ImageGenProvider):
                 return error_response(
                     error=line[len("ERROR:"):].strip(),
                     error_type="api_error",
-                    provider="gpt-image",
+                    provider="codex-image",
                     prompt=prompt,
                     aspect_ratio=aspect_ratio,
                 )
@@ -160,11 +160,11 @@ class GptImageProvider(ImageGenProvider):
         return error_response(
             error="generate.py produced no recognizable output",
             error_type="empty_response",
-            provider="gpt-image",
+            provider="codex-image",
             prompt=prompt,
             aspect_ratio=aspect_ratio,
         )
 
 
 def register(ctx) -> None:
-    ctx.register_image_gen_provider(GptImageProvider())
+    ctx.register_image_gen_provider(CodexImageProvider())

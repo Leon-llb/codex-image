@@ -1,5 +1,5 @@
-name: gpt-image
+name: codex-image
 version: 1.0.0
-description: "Leon's custom GPT Image generator via Codex CLI (ChatGPT Plus). Runs python3 generate.py directly — no OAuth token needed."
+description: "Leon's custom Codex Image generator via Codex CLI (ChatGPT Plus). Runs python3 generate.py directly — no OAuth token needed."
 author: Leon
 kind: backend
